@@ -1,3 +1,4 @@
+
 <?php
   /**
   * Requires the "PHP Email Form" library
@@ -9,19 +10,12 @@
   // Replace contact@example.com with your real receiving email address
   $receiving_email_address = 'steven.125@hotmail.com';
 
-  if( file_exists($php_email_form = '../assets/vendor/php-email-form/php-email-form.php' )) {
-    include( $php_email_form );
-  } else {
-    die( 'Unable to load the "PHP Email Form" Library!');
-  }
-
-  $contact = new PHP_Email_Form;
-  $contact->ajax = true;
   
-  $contact->to = $receiving_email_address;
-  $contact->from_name = $_POST['name'];
-  $contact->from_email = $_POST['email'];
-  $contact->subject = $_POST['subject'];
+$to = $receiving_email_address;
+$from_name = $_POST['name'];
+$from_email = $_POST['email'];
+$subject = $_POST['subject'];
+$message = $_POST['message'];
 
   // Uncomment below code if you want to use SMTP to send emails. You need to enter your correct SMTP credentials
   /*
@@ -33,9 +27,16 @@
   );
   */
 
-  $contact->add_message( $_POST['name'], 'From');
-  $contact->add_message( $_POST['email'], 'Email');
-  $contact->add_message( $_POST['message'], 'Message', 10);
+  
+$para      = $receiving_email_address;
+$titulo    = $subject;
+$mensaje   = $message;
+$cabeceras = 'From: '.$from_email.'' . "\r\n" .
+    'Reply-To: webmaster@example.com' . "\r\n" .
+    'X-Mailer: PHP/' . phpversion();
 
-  echo $contact->send();
+mail($para, $titulo, $mensaje, $cabeceras);
+
+
+  //echo $contact->send();
 ?>
